@@ -84,3 +84,22 @@ def get_claim_by_id(claim_id):
     conn.close()
 
     return claim
+
+def update_claim_status(claim_id, claim_status):
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    query = """
+    UPDATE claims
+    SET claim_status = %s
+    WHERE claim_id = %s
+    """
+
+    cursor.execute(query, (claim_status, claim_id))
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    return {"message": "Claim status updated"}

@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from app.models.claim_model import ClaimRequest
 from app.services.claim_service import create_claim_service,insert_query, get_claim_by_id
+from app.services.claim_service import update_claim_status
 
 router = APIRouter()
 
 @router.post("/claims")
-
 def create_claim(claim: ClaimRequest):
 
     create_claim_service(claim)
@@ -56,3 +56,10 @@ def fetch_claim_by_id(claim_id: int):
         "eligibility_status": claim[8],
         "claim_status": claim[9]
     }
+
+@router.put("/claims/{claim_id}/status")
+def update_status(claim_id: int, claim_status: str):
+
+    result = update_claim_status(claim_id, claim_status)
+
+    return result

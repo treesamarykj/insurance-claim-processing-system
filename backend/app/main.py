@@ -3,7 +3,7 @@ from app.api.claim_routes import router as claim_router
 
 app = FastAPI()
 
-app.include_router(claim_router)
+app.include_router(claim_router, prefix="/api/v1")
 
 @app.get("/")
 def read_root():
