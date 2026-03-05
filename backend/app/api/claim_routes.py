@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from app.models.claim_model import ClaimRequest
-from app.services.claim_service import create_claim_service,get_all_claims
+from app.services.claim_service import create_claim_service,insert_query, get_claim_by_id
 
 router = APIRouter()
 
@@ -15,7 +15,7 @@ def create_claim(claim: ClaimRequest):
 @router.get("/claims")
 def fetch_claims():
 
-    claims = get_all_claims()
+    claims = insert_query()
 
     result = []
 
@@ -35,3 +35,24 @@ def fetch_claims():
         })
 
     return result
+
+@router.get("/claims/{claim_id}")
+def fetch_claim_by_id(claim_id: int):
+
+    claim = get_claim_by_id(claim_id)
+
+    if not claim:
+        return {"message": "Claim not found"}
+
+    return {
+        "claim_id": claim[0],
+        "batch_id": claim[1],
+        "member_id": claim[2],
+        "hospital_name": claim[3],
+        "diagnosis_code": claim[4],
+        "procedure_code": claim[5],
+        "claim_amount": claim[6],
+        "fraud_score": claim[7],
+        "eligibility_status": claim[8],
+        "claim_status": claim[9]
+    }
