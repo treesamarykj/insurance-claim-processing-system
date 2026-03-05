@@ -84,3 +84,17 @@ def get_claim_by_id(claim_id):
     conn.close()
 
     return claim
+
+def get_claims_by_member(member_id):
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    query = "SELECT * FROM claims WHERE member_id = %s"
+    cursor.execute(query,(member_id,))
+    claims = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return claims
